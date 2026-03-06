@@ -37,5 +37,11 @@ python manage.py migrate --noinput
 echo "==> Collecting static files..."
 python manage.py collectstatic --noinput --clear 2>/dev/null || true
 
-echo "==> Starting Django development server..."
-exec python manage.py runserver 0.0.0.0:8000
+# Use gunicorn in production (Railway sets PORT); fall back to 8000 locally.
+PORT="${PORT:-8000}"
+echo "==> Starting Gunicorn on port ${PORT}..."
+exec gunicorn agon.wsgi:application \
+    --bind "0.0.0.0:${PORT}" \
+    --workers 2 \
+    --timeout 120 \
+    --access-logfile -

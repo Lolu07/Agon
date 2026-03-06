@@ -33,6 +33,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -94,9 +95,10 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-# ── Static files ───────────────────────────────────────────────────────────────
+# ── Static files (WhiteNoise serves them in production) ────────────────────────
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # ── Default primary key type ───────────────────────────────────────────────────
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -125,10 +127,16 @@ SIMPLE_JWT = {
 }
 
 # ── CORS ───────────────────────────────────────────────────────────────────────
-# Explicitly allow the Next.js dev server origin.
+# FRONTEND_URL is set to the Vercel deployment URL in production.
+# e.g. https://agon.vercel.app
+_frontend_url = config("FRONTEND_URL", default="")
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
-# Also allow all origins when DEBUG=True as a fallback.
+if _frontend_url:
+    CORS_ALLOWED_ORIGINS.append(_frontend_url)
+
+# Allow all origins in DEBUG mode (local development convenience).
 CORS_ALLOW_ALL_ORIGINS = DEBUG
