@@ -115,7 +115,7 @@ export default function AuthPage() {
             </div>
           )}
 
-          {/* ── LOGIN FORM ── */}
+          {/* Login form */}
           {tab === "login" && (
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
@@ -155,7 +155,7 @@ export default function AuthPage() {
             </form>
           )}
 
-          {/* ── REGISTER FORM ── */}
+          {/* Register form */}
           {tab === "register" && (
             <form onSubmit={handleRegister} className="space-y-4">
               {/* Role selector */}

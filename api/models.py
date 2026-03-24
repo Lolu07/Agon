@@ -51,7 +51,7 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.email} ({self.get_role_display()})"
 
-    # ── Convenience properties ─────────────────────────────────────────────────
+    # Convenience properties
     @property
     def is_student(self):
         return self.role == self.Role.STUDENT

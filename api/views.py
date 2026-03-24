@@ -41,7 +41,7 @@ from .serializers import (
 )
 
 
-# ── Custom Permission Classes ──────────────────────────────────────────────────
+# Custom Permission Classes
 
 class IsCompany(permissions.BasePermission):
     """Grants access only to authenticated users with role=COMPANY."""
@@ -74,7 +74,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         return obj == request.user
 
 
-# ── Auth Views ─────────────────────────────────────────────────────────────────
+# Auth Views
 
 class RegisterView(CreateAPIView):
     """
@@ -98,7 +98,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
-# ── User ViewSet ───────────────────────────────────────────────────────────────
+# User ViewSet
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -136,7 +136,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-# ── Competition ViewSet ────────────────────────────────────────────────────────
+# Competition ViewSet
 
 class CompetitionViewSet(viewsets.ModelViewSet):
     """
@@ -168,7 +168,7 @@ class CompetitionViewSet(viewsets.ModelViewSet):
         serializer.save(host_company=self.request.user)
 
 
-# ── Team ViewSet ───────────────────────────────────────────────────────────────
+# Team ViewSet
 
 class TeamViewSet(viewsets.ModelViewSet):
     """
@@ -292,7 +292,7 @@ class TeamViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-# ── Submission ViewSet ─────────────────────────────────────────────────────────
+# Submission ViewSet
 
 class SubmissionViewSet(viewsets.ModelViewSet):
     """
@@ -361,7 +361,7 @@ class SubmissionViewSet(viewsets.ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
-# ── Student Profile ViewSet ────────────────────────────────────────────────────
+# Student Profile ViewSet
 
 class StudentProfileViewSet(viewsets.ModelViewSet):
     """

@@ -7,15 +7,15 @@ Uses python-decouple to read values from .env file.
 from pathlib import Path
 from decouple import config, Csv
 
-# ── Paths ──────────────────────────────────────────────────────────────────────
+# Paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ── Security ───────────────────────────────────────────────────────────────────
+# Security
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost", cast=Csv())
 
-# ── Application definition ─────────────────────────────────────────────────────
+# Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -63,7 +63,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "agon.wsgi.application"
 
-# ── Database ───────────────────────────────────────────────────────────────────
+# Database
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
@@ -78,10 +78,10 @@ DATABASES = {
     }
 }
 
-# ── Custom User Model ──────────────────────────────────────────────────────────
+# Custom User Model
 AUTH_USER_MODEL = "api.User"
 
-# ── Password validation ────────────────────────────────────────────────────────
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -89,21 +89,21 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# ── Internationalisation ───────────────────────────────────────────────────────
+# Internationalisation
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-# ── Static files (WhiteNoise serves them in production) ────────────────────────
+# Static files
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# ── Default primary key type ───────────────────────────────────────────────────
+# Default primary key type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ── Django REST Framework ──────────────────────────────────────────────────────
+# Django REST Framework
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -115,7 +115,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 20,
 }
 
-# ── Simple JWT ─────────────────────────────────────────────────────────────────
+# Simple JWT
 from datetime import timedelta
 
 SIMPLE_JWT = {
@@ -126,9 +126,7 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-# ── CORS ───────────────────────────────────────────────────────────────────────
-# FRONTEND_URL is set to the Vercel deployment URL in production.
-# e.g. https://agon.vercel.app
+# CORS
 _frontend_url = config("FRONTEND_URL", default="")
 
 CORS_ALLOWED_ORIGINS = [
@@ -138,5 +136,4 @@ CORS_ALLOWED_ORIGINS = [
 if _frontend_url:
     CORS_ALLOWED_ORIGINS.append(_frontend_url)
 
-# Allow all origins in DEBUG mode (local development convenience).
 CORS_ALLOW_ALL_ORIGINS = DEBUG

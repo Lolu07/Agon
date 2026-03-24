@@ -35,7 +35,7 @@ from .views import (
     UserViewSet,
 )
 
-# ── DRF Router ─────────────────────────────────────────────────────────────────
+# Router
 router = DefaultRouter()
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"competitions", CompetitionViewSet, basename="competition")
@@ -43,7 +43,7 @@ router.register(r"teams", TeamViewSet, basename="team")
 router.register(r"submissions", SubmissionViewSet, basename="submission")
 router.register(r"profiles", StudentProfileViewSet, basename="profile")
 
-# ── URL patterns ───────────────────────────────────────────────────────────────
+# URL patterns
 urlpatterns = [
     # Auth
     path("auth/register/", RegisterView.as_view(), name="auth-register"),

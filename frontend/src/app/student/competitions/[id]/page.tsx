@@ -295,7 +295,7 @@ export default function CompetitionDetail() {
         )}
       </div>
 
-      {/* ── FORM TEAM MODAL ── */}
+      {/* Form team modal */}
       <Modal isOpen={formTeamOpen} onClose={() => setFormTeamOpen(false)} title="Form a Team">
         {teamSuccess ? (
           <div className="text-center py-6">
@@ -337,7 +337,7 @@ export default function CompetitionDetail() {
         )}
       </Modal>
 
-      {/* ── SUBMIT PROJECT MODAL ── */}
+      {/* Submit project modal */}
       <Modal isOpen={submitOpen} onClose={() => setSubmitOpen(false)} title="Submit Your Project">
         {submitSuccess ? (
           <div className="text-center py-6">

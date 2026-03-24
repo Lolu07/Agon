@@ -13,7 +13,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Competition, StudentProfile, Submission, Team, TeamMember, User
 
 
-# ── User ───────────────────────────────────────────────────────────────────────
+# User
 
 class UserPublicSerializer(serializers.ModelSerializer):
     """
@@ -96,7 +96,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "date_joined", "role"]
 
 
-# ── JWT Token ──────────────────────────────────────────────────────────────────
+# JWT Token
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     """
@@ -110,7 +110,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
 
 
-# ── Competition ────────────────────────────────────────────────────────────────
+# Competition
 
 class CompetitionListSerializer(serializers.ModelSerializer):
     """Compact representation for list views."""
@@ -158,7 +158,7 @@ class CompetitionDetailSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "created_at", "updated_at", "host_company"]
 
 
-# ── Team ───────────────────────────────────────────────────────────────────────
+# Team
 
 class TeamMemberSerializer(serializers.ModelSerializer):
     """Serializes a membership record including the embedded user."""
@@ -207,7 +207,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "created_at", "competition", "memberships"]
 
 
-# ── Submission ─────────────────────────────────────────────────────────────────
+# Submission
 
 class SubmissionListSerializer(serializers.ModelSerializer):
     """Compact representation for list views."""
@@ -270,7 +270,7 @@ class SubmissionDetailSerializer(serializers.ModelSerializer):
         return attrs
 
 
-# ── Student Profile ─────────────────────────────────────────────────────────────
+# Student Profile
 
 class StudentProfileListSerializer(serializers.ModelSerializer):
     """Compact representation for talent discovery list view."""
