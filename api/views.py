@@ -313,8 +313,6 @@ class SubmissionViewSet(viewsets.ModelViewSet):
     ).all()
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return SubmissionListSerializer
         return SubmissionDetailSerializer
 
     def get_permissions(self):
