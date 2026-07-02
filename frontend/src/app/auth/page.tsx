@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { Zap, User, Building2, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { User, Building2, Eye, EyeOff, AlertCircle } from "lucide-react";
+import AgonLogo from "@/components/Logo";
 import { useAuth } from "@/lib/auth";
 import Button from "@/components/ui/Button";
 
@@ -80,11 +81,9 @@ export default function AuthPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <div className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600">
-              <Zap size={20} className="text-white" />
-            </div>
-            <span className="text-xl font-bold text-white">Agon</span>
+          <div className="flex items-center gap-2.5">
+            <AgonLogo size={40} />
+            <span className="text-xl font-bold text-white tracking-tight">Agon</span>
           </div>
         </div>
 

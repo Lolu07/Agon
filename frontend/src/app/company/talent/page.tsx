@@ -236,104 +236,115 @@ export default function TalentPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {profiles.map((profile) => {
             const cfg = RANK_CONFIG[profile.rank];
+            const initial = profile.user.first_name?.[0] || profile.user.email[0].toUpperCase();
             return (
               <div
                 key={profile.id}
-                className="rounded-2xl bg-gray-900 border border-gray-800 hover:border-gray-700 transition-colors p-6 flex flex-col"
+                className={`group rounded-2xl bg-gray-900 border ${cfg.border} hover:border-opacity-80 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg overflow-hidden flex flex-col`}
               >
-                {/* Top */}
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center text-lg font-black text-violet-400">
-                    {profile.user.first_name?.[0] || profile.user.email[0].toUpperCase()}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                      <p className="font-semibold text-white text-sm truncate">
-                        {profile.user.first_name} {profile.user.last_name}
-                      </p>
-                      <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs border ${cfg.bg} ${cfg.color} ${cfg.border}`}>
-                        {cfg.icon} {cfg.label}
-                      </span>
+                {/* Rank colour accent bar */}
+                <div className={`h-1 w-full ${cfg.bg.replace("/10", "")} opacity-60`} />
+
+                <div className="p-6 flex flex-col flex-1">
+                  {/* Top */}
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${cfg.bg} border ${cfg.border} flex items-center justify-center text-lg font-black ${cfg.color}`}>
+                      {initial}
                     </div>
-                    {profile.university && (
-                      <div className="flex items-center gap-1 text-xs text-gray-500 truncate">
-                        <GraduationCap size={11} />
-                        {profile.university}
-                        {profile.graduation_year && ` · ${profile.graduation_year}`}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                        <p className="font-semibold text-white text-sm truncate">
+                          {profile.user.first_name} {profile.user.last_name}
+                        </p>
+                        <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs border ${cfg.bg} ${cfg.color} ${cfg.border}`}>
+                          {cfg.icon} {cfg.label}
+                        </span>
                       </div>
+                      {profile.university && (
+                        <div className="flex items-center gap-1 text-xs text-gray-500 truncate">
+                          <GraduationCap size={11} />
+                          {profile.university}
+                          {profile.graduation_year && ` · ${profile.graduation_year}`}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* XP bar */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <Trophy size={11} className="text-yellow-500 shrink-0" />
+                    <div className="flex-1 h-1.5 rounded-full bg-gray-800">
+                      <div
+                        className={`h-1.5 rounded-full ${cfg.color.replace("text-", "bg-")}`}
+                        style={{ width: `${Math.min(100, (profile.xp / 2000) * 100)}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-gray-500 shrink-0">{profile.xp} XP</span>
+                  </div>
+
+                  {/* Bio */}
+                  {profile.bio && (
+                    <p className="text-xs text-gray-400 line-clamp-2 mb-4 leading-relaxed">
+                      {profile.bio}
+                    </p>
+                  )}
+
+                  {/* Skills */}
+                  {profile.skills_list.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {profile.skills_list.slice(0, 4).map((skill) => (
+                        <span
+                          key={skill}
+                          className="px-2 py-0.5 rounded-full text-xs bg-gray-800 text-gray-400 border border-gray-700"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                      {profile.skills_list.length > 4 && (
+                        <span className="px-2 py-0.5 rounded-full text-xs bg-gray-800 text-gray-600 border border-gray-700">
+                          +{profile.skills_list.length - 4}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="flex-1" />
+
+                  {/* Social icons */}
+                  <div className="flex items-center gap-3 mb-4">
+                    {profile.github_url && (
+                      <a href={profile.github_url} target="_blank" rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-gray-300 transition-colors">
+                        <Github size={15} />
+                      </a>
+                    )}
+                    {profile.linkedin_url && (
+                      <a href={profile.linkedin_url} target="_blank" rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-gray-300 transition-colors">
+                        <Linkedin size={15} />
+                      </a>
+                    )}
+                    {profile.portfolio_url && (
+                      <a href={profile.portfolio_url} target="_blank" rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-gray-300 transition-colors">
+                        <Globe size={15} />
+                      </a>
                     )}
                   </div>
-                </div>
 
-                {/* XP */}
-                <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-3">
-                  <Trophy size={11} className="text-yellow-500" />
-                  {profile.xp} XP
-                </div>
-
-                {/* Bio */}
-                {profile.bio && (
-                  <p className="text-xs text-gray-400 line-clamp-2 mb-4 leading-relaxed">
-                    {profile.bio}
-                  </p>
-                )}
-
-                {/* Skills */}
-                {profile.skills_list.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {profile.skills_list.slice(0, 4).map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-2 py-0.5 rounded-full text-xs bg-gray-800 text-gray-400 border border-gray-700"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                    {profile.skills_list.length > 4 && (
-                      <span className="px-2 py-0.5 rounded-full text-xs bg-gray-800 text-gray-600 border border-gray-700">
-                        +{profile.skills_list.length - 4}
-                      </span>
-                    )}
+                  {/* Actions */}
+                  <div className="flex gap-2">
+                    <Link href={`/students/${profile.id}`} className="flex-1">
+                      <Button variant="secondary" size="sm" className="w-full">
+                        View Profile
+                      </Button>
+                    </Link>
+                    <a href={`mailto:${profile.user.email}`}>
+                      <Button size="sm">
+                        Invite
+                      </Button>
+                    </a>
                   </div>
-                )}
-
-                {/* Spacer */}
-                <div className="flex-1" />
-
-                {/* Social icons */}
-                <div className="flex items-center gap-2 mb-4">
-                  {profile.github_url && (
-                    <a href={profile.github_url} target="_blank" rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-gray-300 transition-colors">
-                      <Github size={15} />
-                    </a>
-                  )}
-                  {profile.linkedin_url && (
-                    <a href={profile.linkedin_url} target="_blank" rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-gray-300 transition-colors">
-                      <Linkedin size={15} />
-                    </a>
-                  )}
-                  {profile.portfolio_url && (
-                    <a href={profile.portfolio_url} target="_blank" rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-gray-300 transition-colors">
-                      <Globe size={15} />
-                    </a>
-                  )}
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-2">
-                  <Link href={`/students/${profile.id}`} className="flex-1">
-                    <Button variant="secondary" size="sm" className="w-full">
-                      View Profile
-                    </Button>
-                  </Link>
-                  <a href={`mailto:${profile.user.email}`}>
-                    <Button size="sm">
-                      Invite
-                    </Button>
-                  </a>
                 </div>
               </div>
             );

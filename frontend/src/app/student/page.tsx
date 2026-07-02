@@ -131,42 +131,63 @@ export default function StudentDashboard() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map((c) => {
               const dl = formatDeadline(c.deadline);
+              const urgentBorder = dl.color === "text-red-400"
+                ? "border-red-700/40"
+                : dl.color === "text-yellow-400"
+                ? "border-yellow-700/30"
+                : "border-gray-800";
+              const initials = (c.host_company.company_name || "?")
+                .split(" ")
+                .map((w) => w[0])
+                .slice(0, 2)
+                .join("")
+                .toUpperCase();
               return (
                 <div
                   key={c.id}
-                  className="group flex flex-col rounded-2xl bg-gray-900 border border-gray-800 hover:border-violet-700/50 transition-all p-6"
+                  className={`group flex flex-col rounded-2xl bg-gray-900 border ${urgentBorder} hover:border-violet-600/50 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-900/20 overflow-hidden`}
                 >
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <div>
-                      <span className="text-xs font-medium text-violet-400 block mb-1">
-                        {c.host_company.company_name}
-                      </span>
-                      <h3 className="font-semibold text-white leading-snug">{c.title}</h3>
+                  <div className="h-1 w-full bg-gradient-to-r from-violet-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-start gap-3 mb-4">
+                      {/* Company avatar */}
+                      <div className="shrink-0 w-10 h-10 rounded-lg bg-violet-600/15 border border-violet-600/20 flex items-center justify-center text-xs font-bold text-violet-400">
+                        {initials}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-xs font-semibold text-violet-400 uppercase tracking-wide">
+                            {c.host_company.company_name}
+                          </span>
+                          <span className="shrink-0 px-2 py-0.5 rounded-full text-xs bg-green-500/10 text-green-400 border border-green-500/20">
+                            Active
+                          </span>
+                        </div>
+                        <h3 className="font-semibold text-white leading-snug mt-0.5">{c.title}</h3>
+                      </div>
                     </div>
-                    <span className="shrink-0 px-2 py-0.5 rounded-full text-xs bg-green-500/10 text-green-400 border border-green-500/20">
-                      Active
-                    </span>
+
+                    <p className="text-sm text-gray-400 line-clamp-2 mb-5 flex-1 leading-relaxed">{c.description}</p>
+
+                    <div className="space-y-2 pt-4 border-t border-gray-800">
+                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                        <Trophy size={12} className="text-yellow-500 shrink-0" />
+                        <span className="truncate">{c.prize_description}</span>
+                      </div>
+                      <div className={`flex items-center gap-2 text-xs ${dl.color}`}>
+                        <Clock size={12} className="shrink-0" />
+                        {dl.label} · {new Date(c.deadline).toLocaleDateString()}
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/student/competitions/${c.id}`}
+                      className="mt-4 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium bg-gray-800 hover:bg-violet-600 text-gray-300 hover:text-white border border-gray-700 hover:border-violet-600 transition-all"
+                    >
+                      View Challenge <ArrowRight size={14} />
+                    </Link>
                   </div>
-
-                  <p className="text-sm text-gray-400 line-clamp-3 mb-5 flex-1">{c.description}</p>
-
-                  <div className="space-y-2 pt-4 border-t border-gray-800">
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      <Trophy size={12} className="text-yellow-500 shrink-0" />
-                      <span className="truncate">{c.prize_description}</span>
-                    </div>
-                    <div className={`flex items-center gap-2 text-xs ${dl.color}`}>
-                      <Clock size={12} className="shrink-0" />
-                      {dl.label} · {new Date(c.deadline).toLocaleDateString()}
-                    </div>
-                  </div>
-
-                  <Link
-                    href={`/student/competitions/${c.id}`}
-                    className="mt-4 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-violet-600 text-gray-300 hover:text-white border border-gray-700 hover:border-violet-600 transition-all"
-                  >
-                    View Challenge <ArrowRight size={14} />
-                  </Link>
                 </div>
               );
             })}
